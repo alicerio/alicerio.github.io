@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Simple, code-themed portfolio with subtle animations." />
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#0f1733;
+      --stroke:rgba(255,255,255,.10);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.66);
+
+      /* code vibe */
+      --accent:#7ee787;   /* terminal green */
+      --accent2:#79c0ff;  /* blue */
+      --accent3:#ff7b72;  /* red/pink */
+      --accent4:#d2a8ff;  /* purple */
+
+      --radius:18px;
+      --max: 980px;
+      --shadow: 0 14px 45px rgba(0,0,0,.45);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background: radial-gradient(1000px 600px at 20% 0%, rgba(121,192,255,.14), transparent 55%),
+                  radial-gradient(900px 600px at 85% 20%, rgba(210,168,255,.12), transparent 55%),
+                  radial-gradient(900px 600px at 40% 100%, rgba(126,231,135,.10), transparent 60%),
+                  var(--bg);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding: 22px 16px 70px;}
+    .topbar{
+      position:sticky; top:0; z-index:20;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom, rgba(11,16,32,.88), rgba(11,16,32,.45));
+      border-bottom:1px solid var(--stroke);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding: 12px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:700; letter-spacing:.3px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius:10px;
+      display:grid; place-items:center;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      color: var(--accent);
+    }
+    nav{display:flex; gap:8px; flex-wrap:wrap;}
+    .navlink{
+      padding:8px 12px; border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      transition:.2s ease;
+      font-weight:650;
+    }
+    .navlink:hover{background:rgba(255,255,255,.07); color:var(--text); transform: translateY(-1px);}
+
+    /* HERO */
+    .hero{
+      position:relative;
+      margin-top: 18px;
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      min-height: 70vh;
+      display:grid;
+      place-items:center;
+      padding: 38px 18px;
+    }
+    .hero::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 400px at 15% 20%, rgba(121,192,255,.16), transparent 60%),
+        radial-gradient(700px 420px at 85% 25%, rgba(255,123,114,.12), transparent 60%),
+        radial-gradient(720px 480px at 45% 115%, rgba(126,231,135,.12), transparent 65%);
+      pointer-events:none;
+      filter: blur(1px);
+      opacity:.9;
+    }
+
+    /* floating code particles */
+    .particles{
+      position:absolute; inset:0;
+      pointer-events:none;
+      opacity:.65;
+    }
+    .p{
+      position:absolute;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      color: rgba(255,255,255,.45);
+      animation: drift linear infinite;
+      text-shadow: 0 8px 20px rgba(0,0,0,.35);
+    }
+    .p b{color: rgba(126,231,135,.7); font-weight:800;}
+    @keyframes drift{
+      from{ transform: translateY(30px); opacity:0;}
+      15%{opacity:.7}
+      70%{opacity:.6}
+      to{ transform: translateY(-120px); opacity:0;}
+    }
+
+    .hero-inner{ position:relative; width:min(680px, 100%); text-align:center; }
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      color: var(--muted);
+      font-weight:650;
+      letter-spacing:.2px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+    }
+    .mono .dot{width:8px; height:8px; border-radius:99px; background: var(--accent); box-shadow: 0 0 14px rgba(126,231,135,.35);}
+
+    h1{
+      margin: 16px 0 10px;
+      font-size: clamp(34px, 6vw, 56px);
+      line-height:1.05;
+      letter-spacing:-.8px;
+    }
+    .subtitle{
+      margin: 0 auto;
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    /* typing line */
+    .typing{
+      margin: 18px auto 0;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.20);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      color: rgba(255,255,255,.82);
+    }
+    .prompt{color: var(--accent)}
+    .typewrap{
+      white-space:nowrap;
+      overflow:hidden;
+      border-right: 2px solid rgba(255,255,255,.65);
+      animation: caret 1s steps(1) infinite;
+      max-width: 0;
+    }
+    @keyframes caret { 50% { border-right-color: transparent; } }
+
+    /* The actual typing effect: we animate width to reveal text */
+    .typewrap{
+      animation:
+        typing 3.4s steps(28, end) infinite,
+        caret 1s steps(1) infinite;
+    }
+    @keyframes typing{
+      0%{ max-width: 0; }
+      45%{ max-width: 420px; }
+      65%{ max-width: 420px; }
+      100%{ max-width: 0; }
+    }
+
+    .cta{
+      margin-top: 18px;
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      padding: 10px 14px;
+      border-radius: 14px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+      font-weight:700;
+      transition:.2s ease;
+      display:inline-flex; align-items:center; gap:10px;
+    }
+    .btn:hover{ background: rgba(255,255,255,.08); transform: translateY(-1px); }
+    .btn.primary{
+      border-color: rgba(126,231,135,.35);
+      background: linear-gradient(135deg, rgba(126,231,135,.15), rgba(121,192,255,.12));
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+    }
+    .btn .hint{ color: var(--muted); font-weight:650; }
+
+    /* sections */
+    section{ margin-top: 18px; }
+    .section{
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 10px 34px rgba(0,0,0,.22);
+      padding: 18px;
+    }
+    .section h2{
+      margin: 0 0 10px;
+      font-size: 1.25rem;
+      letter-spacing: -.2px;
+    }
+    .lead{ margin:0 0 14px; color: var(--muted); }
+
+    /* projects */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .card{
+      grid-column: span 6;
+      border:1px solid var(--stroke);
+      border-radius: 16px;
+      background: rgba(0,0,0,.16);
+      padding: 14px;
+      transition:.2s ease;
+    }
+    .card:hover{ transform: translateY(-2px); background: rgba(0,0,0,.22); }
+    .card h3{ margin: 0 0 6px; font-size: 1.05rem; }
+    .card p{ margin: 0 0 10px; color: var(--muted); }
+    .tags{ display:flex; flex-wrap:wrap; gap:8px; }
+    .tag{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.03);
+      color: rgba(255,255,255,.72);
+    }
+    .tag.g{border-color: rgba(126,231,135,.25); color: rgba(126,231,135,.9);}
+    .tag.b{border-color: rgba(121,192,255,.25); color: rgba(121,192,255,.9);}
+    .tag.r{border-color: rgba(255,123,114,.25); color: rgba(255,123,114,.9);}
+
+    .links{ margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap; }
+    .link{
+      padding: 9px 12px;
+      border-radius: 12px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.03);
+      font-weight:700;
+      transition:.2s ease;
+    }
+    .link:hover{ background: rgba(255,255,255,.08); transform: translateY(-1px); }
+
+    /* about/contact */
+    .two{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    ul.clean{ margin: 8px 0 0; padding-left: 18px; color: var(--muted); }
+    ul.clean li{ margin: 6px 0; }
+
+    footer{
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--stroke);
+      color: rgba(255,255,255,.5);
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    }
+
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation: none !important; transition: none !important; scroll-behavior:auto; }
+    }
+
+    @media (max-width: 860px){
+      .card{ grid-column: span 12; }
+      .two{ grid-template-columns: 1fr; }
+      .hero{ min-height: 66vh; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo">&lt;/&gt;</div>
+        <span>Your Name</span>
+      </div>
+      <nav aria-label="Primary">
+        <a class="navlink" href="#projects">Projects</a>
+        <a class="navlink" href="#about">About</a>
+        <a class="navlink" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" id="top">
+      <!-- subtle floating code -->
+      <div class="particles" aria-hidden="true">
+        <div class="p" style="left:8%; top:78%; animation-duration:10s; animation-delay:-1s;">const <b>you</b> = "developer";</div>
+        <div class="p" style="left:64%; top:84%; animation-duration:12s; animation-delay:-4s;">&lt;<b>Portfolio</b> /&gt;</div>
+        <div class="p" style="left:22%; top:92%; animation-duration:11s; animation-delay:-6s;">git commit -m "<b>ship</b>"</div>
+        <div class="p" style="left:74%; top:70%; animation-duration:13s; animation-delay:-2s;">npm run <b>build</b></div>
+        <div class="p" style="left:38%; top:88%; animation-duration:14s; animation-delay:-7s;">SELECT * FROM <b>projects</b>;</div>
+        <div class="p" style="left:80%; top:92%; animation-duration:15s; animation-delay:-9s;">curl /api/<b>hello</b></div>
+      </div>
+
+      <div class="hero-inner">
+        <div class="mono"><span class="dot"></span><span>available_for_hire: true</span></div>
+
+        <h1>Alan Licerio</h1>
+        <div class="typing" aria-label="Typing animation">
+          <span class="prompt">$</span>
+          <span class="typewrap">building: web apps • tools • automations</span>
+        </div>
+
+        <div class="cta">
+          <a class="btn primary" href="#projects">Explore My Work <span class="hint">↓</span></a>
+          <a class="btn" href="#contact">Contact</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <h2>Projects</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Employee Task Tracker</h3>
+          <p>Custom full-stack task tracking application deployed on AWS to provide org-wide visibility into task ownership, status, and accountability.</p>
+          <div class="tags">
+            <span class="tag g">Python</span>
+            <span class="tag b">Web</span>
+            <span class="tag r">CI/CD</span>
+          </div>
+          <div class="links">
+            <a class="link" href="#" target="_blank" rel="noreferrer">Repo</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Multimodal Web Tool</h3>
+          <p>Laravel-based web application supporting regional planning workflows, delivering features across UI, backend services, and database integration.</p>
+          <div class="tags">
+            <span class="tag g">full-stack</span>
+            <span class="tag b">Frontend</span>
+            <span class="tag r">Laravel</span>
+          </div>
+          <div class="links">
+            <a class="link" href="#" target="_blank" rel="noreferrer">Repo</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Baseball Scoring Tracker</h3>
+          <p>Building a Swift iOS app to track scoring and game stats with a clean mobile UI and local data persistence.</p>
+          <div class="tags">
+            <span class="tag r">Coming soon</span>
+            <span class="tag b">Idea</span>
+          </div>
+          <div class="links">
+            <a class="link" href="#" target="_blank" rel="noreferrer">Repo</a>
+          </div>
+        </article>
+
+        <!-- <article class="card">
+          <h3>Another Future Project</h3>
+          <p>Quick summary. Add screenshots later if you want.</p>
+          <div class="tags">
+            <span class="tag g">TypeScript</span>
+            <span class="tag b">Frontend</span>
+            <span class="tag r">Backend</span>
+          </div>
+          <div class="links">
+            <a class="link" href="#" target="_blank" rel="noreferrer">Live</a>
+            <a class="link" href="#" target="_blank" rel="noreferrer">Code</a>
+          </div>
+        </article> -->
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <h2>About</h2>
+      <p class="lead">Two short blocks: who you are + what you’re good at.</p>
+
+      <div class="two">
+        <div class="card" style="background:rgba(0,0,0,.12);">
+          <h3>Bio</h3>
+          <p>
+            I am a full-stack developer who enjoys building clean, reliable web apps from end to end.
+          </p>
+            <p>
+            I work across the stack: designing user-friendly UIs, building secure and well-documented APIs, and working with databases and cloud tooling to ship
+            features that scale. 
+          </p>
+            <p>
+            Outside of coding, I like learning new tools, refining workflows, and turning small ideas into useful side projects.
+          </p>
+        </div>
+
+        <div class="card" style="background:rgba(0,0,0,.12);">
+          <h3>Skills</h3>
+          <ul class="clean">
+            <li>Frontend: HTML, CSS, JavaScript</li>
+            <li>Backend: Node / Python / …</li>
+            <li>Tools: Git, Docker, CI/CD, …</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>Contact</h2>
+      <p class="lead">Add your links. Keep it lightweight.</p>
+
+      <div class="links">
+        <a class="link" href="mailto:you@example.com">Email</a>
+        <a class="link" href="https://github.com/yourhandle" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="link" href="https://linkedin.com/in/yourhandle" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+
+      <footer>
+        <span>© <span id="year"></span> Your Name</span>
+        <span class="mono" style="border-radius:12px; padding:6px 10px;">
+          <span class="dot"></span><span>scroll_to_explore();</span>
+        </span>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
